@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - 3000:3000
+    networks:
+      - svelte_kit_postgres_network
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+networks:
+  svelte_kit_postgres_network:
