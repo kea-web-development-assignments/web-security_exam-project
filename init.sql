@@ -10,8 +10,8 @@ CREATE TABLE users(
     last_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    role TEXT NOT NULL,
+    phone_num TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT 'user',
     verified BOOLEAN NOT NULL DEFAULT false,
     blocked BOOLEAN NOT NULL DEFAULT false,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -38,8 +38,7 @@ CREATE TABLE properties(
     blocked BOOLEAN NOT NULL DEFAULT false,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP,
-    CONSTRAINT user_fk
+    CONSTRAINT users_properties_fk
         FOREIGN KEY(user_id)
         REFERENCES users(id) ON DELETE CASCADE
 );
@@ -52,6 +51,15 @@ INSERT INTO properties VALUES (
     '55.6753132',
     1258,
     '2'
+);
+
+CREATE TABLE verification_codes(
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT users_verification_codes_fk
+        FOREIGN KEY(user_id)
+        REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- updated_at trigger
@@ -69,14 +77,14 @@ $$;
 
 DROP TRIGGER IF EXISTS trigger_update_users_updated_at ON users;
 CREATE TRIGGER trigger_update_users_updated_at
-    BEFORE UPDATE
+    AFTER UPDATE
     ON users
     FOR EACH ROW
 EXECUTE PROCEDURE update_updated_at();
 
 DROP TRIGGER IF EXISTS trigger_update_properties_updated_at ON properties;
 CREATE TRIGGER trigger_update_properties_updated_at
-    BEFORE UPDATE
+    AFTER UPDATE
     ON properties
     FOR EACH ROW
 EXECUTE PROCEDURE update_updated_at();

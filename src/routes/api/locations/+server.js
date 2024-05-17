@@ -1,7 +1,7 @@
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 import { json } from '@sveltejs/kit';
 
-export async function GET({ url, params }) {
+export async function GET({ url }) {
     try {
         const query = url.searchParams.get('query');
 
@@ -27,7 +27,7 @@ export async function GET({ url, params }) {
         //not passing the error to the response, as it could contain sensitive information (the access token)
         return json({
             error: {
-                message: 'Server error: Failed to get locations, try again later',
+                message: 'Something went wrong, failed to get locations, try again later.',
             }
         }, { status: 500 })
     }

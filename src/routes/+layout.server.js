@@ -4,6 +4,9 @@ export async function load(event) {
     if(event.url.pathname === '/') {
         data.showSearchBar = true;
     }
+    if(event.locals.user) {
+        data.user = event.locals.user;
+    }
 
     return data;
 }

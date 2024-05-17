@@ -1,4 +1,5 @@
 <script>
+	import searchIcon from '$lib/images/search-icon.svg'
     import { onMount } from 'svelte';
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
@@ -73,7 +74,7 @@
 </script>
 
 <form
-    class="h-full w-72 inline-block bg-white rounded-full drop-shadow-around-md z-10 p-2"
+    class="h-full w-72 inline-block bg-white rounded-full drop-shadow-around-md z-10 p-1 mx-4 md:p-2"
     on:submit|preventDefault={submit}
     bind:this={thisElement}
 >
@@ -81,21 +82,24 @@
         <input
             class="w-full border-none outline-none m-1.5"
             type="text"
-            placeholder="Search locations"
+            placeholder="Location"
             bind:value={query}
             on:input={() => debounceSearch(500)}
             on:focus={() => showSearchResults = true}
             on:blur={checkSearchBarFocus}
         >
-        <input
-            class="bg-rose-500 text-white font-bold rounded-full p-1.5 hover:opacity-80 cursor-pointer duration-200"
+        <button
+            class="h-full shrink-0 flex items-center bg-rose-500 rounded-full cursor-pointer duration-200 p-1.5 hover:opacity-80"
             type="submit"
             value="Search"
             on:blur={checkSearchBarFocus}
         >
+            <span class="hidden text-white font-bold md:block">Search</span>
+            <img class="h-full md:hidden" src={searchIcon} alt="Search">
+        </button>
     </section>
     {#if showSearchResults && locations.length}
-        <section class="w-72 left-0 absolute bg-white rounded-xl drop-shadow-around-md mt-4">
+        <section class="w-full left-0 absolute bg-white rounded-xl drop-shadow-around-md mt-4">
             {#each locations as location}
                 <a
                     class="w-full block p-2 hover:bg-gray-300 duration-200 first:rounded-t-xl last:rounded-b-xl"

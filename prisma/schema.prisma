@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_CONNECTION_STRING")
+}
+
+model users {
+  id                 String              @id @default(uuid())
+  username           String
+  firstName          String              @map("first_name")
+  lastName           String              @map("last_name")
+  email              String              @unique
+  password           String
+  phoneNum           String              @map("phone_num")
+  role               String              @default("user")
+  verified           Boolean             @default(false)
+  blocked            Boolean             @default(false)
+  createdAt          DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt          DateTime            @default(now()) @map("updated_at") @db.Timestamp(6)
+  deletedAt          DateTime?           @map("deleted_at") @db.Timestamp(6)
+  properties         properties[]
+  verification_codes verificationCodes?
+  forgotten_password_requests forgottenPasswordRequests?
+}
+
+model properties {
+  id            String   @id @default(uuid())
+  name          String
+  address       String
+  lon           String
+  lat           String
+  pricePerNight Float    @map("price_per_night") @db.Real
+  userId        String   @map("user_id")
+  blocked       Boolean  @default(false)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
+  users         users    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "user_fk")
+}
+
+model verificationCodes {
+  id         String   @id @default(uuid())
+  userId     String   @unique @map("user_id")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  users      users    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "users_verification_codes_fk")
+  @@map("verification_codes")
+}
+
+model forgottenPasswordRequests {
+  id         String   @id @default(uuid())
+  userId     String   @unique @map("user_id")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  users      users    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "users_forgotten_password_requests_fk")
+  @@map("forgotten_password_requests")
+}

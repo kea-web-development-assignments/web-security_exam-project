@@ -13,7 +13,15 @@
 	<form
 		class="w-[24rem] flex flex-col gap-3 bg-white drop-shadow-around-md rounded-md p-4"
 		method="POST"
-		use:enhance
+		use:enhance={({ formData }) => {
+			return async ({ result, update }) => {
+				if(result.status === 303) {
+					alert(`An email with a verification link has been sent to ${formData.get('email')}, check your spam folder if you can't find it in your inbox.`);
+				}
+
+				update();
+			}
+		}}
 	>
         <InputField
 			name="username"
@@ -73,7 +81,7 @@
 			required
 		/>
 		<input
-			class="bg-rose-500 text-white rounded-full p-2 mt-2"
+			class="bg-rose-500 text-white rounded-full cursor-pointer p-2 mt-2"
 			type="submit"
 			value="Sign up"
 		>
