@@ -80,6 +80,9 @@
 			errorMessage={$page.form?.errors?.phoneNum}
 			required
 		/>
+		{#if $page.status !== 200 && $page.form?.error?.message}
+			<p class="text-rose-500 text-center">{$page.form?.error?.message}</p>
+		{/if}
 		<input
 			class="bg-rose-500 text-white rounded-full cursor-pointer p-2 mt-2"
 			type="submit"

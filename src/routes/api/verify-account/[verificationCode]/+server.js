@@ -20,6 +20,6 @@ export async function POST({ params }) {
             error: {
                 message: 'Something went wrong, try again later.',
             }
-        }, { status: 500 })
+        }, { status: 500 });
     }
 }

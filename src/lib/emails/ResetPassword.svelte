@@ -32,4 +32,8 @@
 	<Text>
 		If you did not ask to reset your password, you can ignore this email.
 	</Text>
+	<Hr />
+	<Text>
+		Best regards, KEA Airbnb
+	</Text>
 </Html>

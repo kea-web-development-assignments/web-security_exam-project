@@ -4,12 +4,13 @@ import { redirect } from '@sveltejs/kit';
 
 export const actions = {
     default: async ({ params, request }) => {
-        const data = Object.fromEntries(await request.formData());
+        let data = Object.fromEntries(await request.formData());
         const validationResult = validateUser(data, ['password']);
 
         if(validationResult.status === 400) {
             return validationResult;
         }
+        data = validationResult;
 
         await db.users.resetPassword(params.resetCode, data.password);
 

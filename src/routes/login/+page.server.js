@@ -5,12 +5,13 @@ import { createAccessToken } from '$lib/utils/authenticator.js';
 
 export const actions = {
     default: async ({ request, url, cookies }) => {
-        const data = Object.fromEntries(await request.formData());
+        let data = Object.fromEntries(await request.formData());
         const validationResult = validateUser(data, ['email', 'password']);
 
         if(validationResult.status === 400) {
             return validationResult;
         }
+        data = validationResult;
 
         const user = await db.users.login(data);
 

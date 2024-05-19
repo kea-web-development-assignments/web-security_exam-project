@@ -60,7 +60,7 @@ db = db
                         throw {
                             status: 404,
                             message: 'Verification code not found',
-                        }
+                        };
                     }
 
                     const user = await db.users.update({
@@ -72,7 +72,7 @@ db = db
                         throw {
                             status: 404,
                             message: 'No user with that verification code',
-                        }
+                        };
                     }
 
                     await db.verificationCodes.delete({ where: { id: code } });
@@ -85,7 +85,7 @@ db = db
                         throw {
                             status: 404,
                             message: 'Password reset request not found',
-                        }
+                        };
                     }
 
                     const passwordHash = await bcrypt.hash(newPassword, 10);
@@ -98,12 +98,36 @@ db = db
                         throw {
                             status: 404,
                             message: 'No user with that password reset request',
-                        }
+                        };
                     }
 
                     await db.forgottenPasswordRequests.delete({ where: { id: code } });
                     return user;
-                }
+                },
+                deleteAccount: async (id, password) => {
+                    const user = await db.users.findFirst({ where: { id } });
+
+                    if(!user) {
+                        throw {
+                            status: 404,
+                            message: 'User not found',
+                        };
+                    }
+
+                    if(!(await bcrypt.compare(password, user.password))) {
+                        throw {
+                            status: 400,
+                            message: 'Incorrect password',
+                        };
+                    }
+
+                    await db.users.update({
+                        where: { id },
+                        data: { deletedAt: new Date() },
+                    });
+
+                    return user;
+                },
             }
         }
     })
@@ -112,8 +136,12 @@ db = db
     .$extends({
         query: {
             users: {
-                //on user soft delete, delete all their properties
                 update: async ({ args, query }) => {
+                    //on update user password, hash the password
+                    if(args.data.password) {
+                        args.data.password = await bcrypt.hash(args.data.password, 10);
+                    }
+                    //on user soft delete, delete all their properties
                     if(args.data.deletedAt instanceof Date && args.where.id) {
                         const [ userQueryResult ] = await db.$transaction([
                             query(args),

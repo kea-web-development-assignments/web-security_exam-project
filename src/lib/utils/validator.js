@@ -24,6 +24,10 @@ export const userFieldsLookup = {
         label: 'Password',
         regex: '^[^ ]{1,50}$',
     },
+    oldPassword: {
+        label: 'Old password',
+        regex: '^[^ ]{1,50}$',
+    },
     phoneNum: {
         label: 'Phone number',
         regex: '^[0-9]{8}$',
@@ -32,7 +36,8 @@ export const userFieldsLookup = {
 
 export function validateUser(
     data,
-    fields = ['username', 'firstName', 'lastName', 'email', 'password', 'phoneNum']
+    fields = ['username', 'firstName', 'lastName', 'email', 'password', 'phoneNum'],
+    formId,
 ) {
     const errors = {};
 
@@ -46,8 +51,17 @@ export function validateUser(
     }
 
     if(Object.keys(errors).length) {
+        if(formId) {
+            return fail(400, { [formId]: { errors } });
+        }
+
         return fail(400, { errors });
     }
 
-    return data;
+    //only return fields that have been validated
+    return Object.fromEntries(
+        Object.entries(data).filter(([ key ]) => {
+            return fields.includes(key);
+        })
+    );
 }

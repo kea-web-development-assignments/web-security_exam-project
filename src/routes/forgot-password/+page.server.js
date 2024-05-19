@@ -5,15 +5,13 @@ import { sendPasswordResetMail } from '$lib/utils/emailer.js';
 
 export const actions = {
     default: async ({ request, url }) => {
-        return fail(400, {
-            error: { message: 'haaaaa' },
-        });
-        const data = Object.fromEntries(await request.formData());
+        let data = Object.fromEntries(await request.formData());
         const validationResult = validateUser(data, ['email']);
 
         if(validationResult.status === 400) {
             return validationResult;
         }
+        data = validationResult;
 
         const user = await db.users.findFirst({ where: { email: data.email } });
 

@@ -28,4 +28,8 @@
     >
         Verify account
     </Button>
+	<Hr />
+	<Text>
+		Best regards, KEA Airbnb
+	</Text>
 </Html>

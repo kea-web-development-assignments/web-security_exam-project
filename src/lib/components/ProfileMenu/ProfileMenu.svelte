@@ -28,7 +28,7 @@
         class="w-40 right-0 absolute bg-white rounded-xl drop-shadow-around-md mt-2"
         class:hidden={!showDropdownMenu}
     >
-        <ProfileMenuLink href="/account" hidden={!$page.data.user}>Account</ProfileMenuLink>
+        <ProfileMenuLink href="/account" hidden={!$page.data.user} roundedTop>Account</ProfileMenuLink>
         <form
             id="logoutForm"
             class:hidden={!$page.data.user}
@@ -42,8 +42,8 @@
                 value="Logout"
             />
         </form>
-        <ProfileMenuLink href="/login" hidden={$page.data.user}>Log in</ProfileMenuLink>
+        <ProfileMenuLink href="/login" hidden={$page.data.user} roundedTop>Log in</ProfileMenuLink>
         <ProfileMenuLink href="/signup" hidden={$page.data.user}>Sign up</ProfileMenuLink>
-        <ProfileMenuLink href="/account/my-properties" hidden={$page.data.user}>Airbnb your home</ProfileMenuLink>
+        <ProfileMenuLink href="/account/my-properties" hidden={$page.data.user} roundedBottom>Airbnb your home</ProfileMenuLink>
     </section>
 </section>

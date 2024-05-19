@@ -5,12 +5,13 @@ import { sendVerificationMail } from '$lib/utils/emailer.js';
 
 export const actions = {
     default: async ({ request, url }) => {
-        const data = Object.fromEntries(await request.formData());
+        let data = Object.fromEntries(await request.formData());
         const validationResult = validateUser(data);
 
         if(validationResult.status === 400) {
             return validationResult;
         }
+        data = validationResult;
 
         const { user, verificationCode } = await db.users.signup(data);
 
