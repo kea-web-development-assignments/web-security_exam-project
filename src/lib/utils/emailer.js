@@ -1,7 +1,15 @@
 import mailgun from 'mailgun-js';
 import { MAILGUN_API_KEY, MAILGUN_TEST_EMAIL } from '$env/static/private';
 import { render } from 'svelte-email';
-import { VerifyAccount, ResetPassword, AccountDeleted, AccountBlocked, AccountUnblocked } from '$lib/emails';
+import {
+    VerifyAccount,
+    ResetPassword,
+    AccountDeleted,
+    AccountBlocked,
+    AccountUnblocked,
+    PropertyBlocked,
+    PropertyUnblocked,
+} from '$lib/emails';
 
 const domain = 'sandbox2ed00ddcd76e4773a0e4d6d155292047.mailgun.org';
 const from = 'KEA airbnb <postmaster@sandbox2ed00ddcd76e4773a0e4d6d155292047.mailgun.org>'
@@ -87,6 +95,40 @@ export async function sendAccountUnblockedMail({ email, firstName, lastName }) {
         from,
         to: MAILGUN_TEST_EMAIL, //For conveniance
         subject: 'Kea airbnb account has been unblocked',
+        html: htmlBody,
+    });
+}
+
+export async function sendPropertyBlockedMail({ email, firstName, lastName }, propertyName) {
+    const htmlBody = render({
+        template: PropertyBlocked,
+        props: {
+            fullName: `${firstName} ${lastName}`,
+            propertyName,
+        },
+    });
+
+    await mailer.messages().send({
+        from,
+        to: MAILGUN_TEST_EMAIL, //For conveniance
+        subject: `Kea airbnb property "${propertyName}" has been blocked`,
+        html: htmlBody,
+    });
+}
+
+export async function sendPropertyUnblockedMail({ email, firstName, lastName }, propertyName) {
+    const htmlBody = render({
+        template: PropertyUnblocked,
+        props: {
+            fullName: `${firstName} ${lastName}`,
+            propertyName,
+        },
+    });
+
+    await mailer.messages().send({
+        from,
+        to: MAILGUN_TEST_EMAIL, //For conveniance
+        subject: `Kea airbnb property "${propertyName}" has been unblocked`,
         html: htmlBody,
     });
 }

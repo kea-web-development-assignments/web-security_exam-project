@@ -9,5 +9,7 @@
     {#if $page.data?.user?.role === 'admin'}
         <AccountSidebarLink href="/account/user-list">User list</AccountSidebarLink>
         <AccountSidebarLink href="/account/user-list/blocked">Blocked user list</AccountSidebarLink>
+        <AccountSidebarLink href="/account/properties-list">Properties list</AccountSidebarLink>
+        <AccountSidebarLink href="/account/properties-list/blocked">Blocked properties list</AccountSidebarLink>
     {/if}
 </section>

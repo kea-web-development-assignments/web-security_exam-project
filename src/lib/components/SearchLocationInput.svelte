@@ -50,7 +50,7 @@
             }
 
             locations = data.locations ?? [];
-            showSearchResults = true;
+            checkSearchBarFocus();
         } catch (error) {
             showSearchResults = false;
             console.error('Failed to query locations', error);
@@ -75,7 +75,10 @@
         //if not, the search results list will be hidden
         if(!thisElement.matches(':focus-within')) {
             showSearchResults = false;
+            return;
         }
+
+        showSearchResults = true;
     }
 </script>
 
@@ -118,7 +121,12 @@
             {required}
             bind:value={query}
             on:input={() => debounceSearch(500)}
-            on:keyup={(e) => e.key === 'Enter' && submit(locations[0])}
+            on:keyup={(e) => {
+                if(e.key === 'Enter') {
+                    submit(locations[0])
+                    e.target.blur();
+                }
+            }}
             on:focus={() => showSearchResults = true}
             on:blur={checkSearchBarFocus}
         >
@@ -127,7 +135,10 @@
                 class="h-full shrink-0 flex items-center bg-rose-500 cursor-pointer duration-200 p-1.5 hover:opacity-80"
                 class:rounded-full={rounded}
                 value="Search"
-                on:click={(e) => submit(locations[0])}
+                on:click={(e) => {
+                    submit(locations[0])
+                    e.target.blur();
+                }}
                 on:blur={checkSearchBarFocus}
             >
                 <span class="hidden text-white font-bold md:block">Search</span>

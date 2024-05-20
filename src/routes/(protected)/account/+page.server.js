@@ -7,15 +7,16 @@ import { sendAccountDeletedMail } from '$lib/utils/emailer.js';
 
 export async function load({ locals }) {
     try {
-        const data = await db.users.findFirst({ where: { id: locals.user.sub } });
-
-        const profileInfo = {
-            username: data.username,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            phoneNum: data.phoneNum,
-        };
+        const profileInfo = await db.users.findFirst({
+            where: { id: locals.user.sub },
+            select: {
+                username: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                phoneNum: true,
+            },
+        });
 
         return { profileInfo };
     } catch (error) {

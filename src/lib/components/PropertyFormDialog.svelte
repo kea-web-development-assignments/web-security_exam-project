@@ -7,10 +7,11 @@
     export let data = {};
     export let formAction = '';
 	export let formEnctype = 'application/x-www-form-urlencoded';
-    export let formUseEnhanceCallback = () => {};
-    export let showDialog = false;
 	export let submitButtonText = 'Submit';
+    export let showDialog = false;
+	export let imagesRequired = false;
 	export let errorFormId = '';
+    export let formUseEnhanceCallback = () => {};
 
     let dialogElement;
 
@@ -38,7 +39,7 @@
 			name="name"
 			label="Name"
 			placeholder="Avenue apartment"
-			title="Must be between 3-30 characters"
+			title="Must be between 3-50 characters"
 			pattern={propertyFieldsLookup.name.regex}
 			errorMessage={$page.form?.[errorFormId]?.errors?.name}
 			required
@@ -100,17 +101,29 @@
 			accept=".avif, .jpg, .jpeg, .png, .webp"
 			title="Must include at least one image"
 			errorMessage={$page.form?.[errorFormId]?.errors?.images}
-			required
+			required={imagesRequired}
 			multiple
 			bind:value={data.images}
 		/>
 		{#if $page.status !== 200 && $page.form?.[errorFormId]?.error?.message}
 			<p class="text-rose-500 text-center">{$page.form?.[errorFormId]?.error?.message}</p>
 		{/if}
-		<input
-			class="bg-rose-500 text-white rounded-full cursor-pointer p-2 mt-2"
-			type="submit"
-			value={submitButtonText}
-		>
+		<section class="flex justify-between text-lg">
+			<button
+				class="w-1/3 bg-blue-500 text-white text-center rounded-lg cursor-pointer p-2 mt-2"
+				type="button"
+				on:click={() => {
+					data = {};
+					showDialog = false;
+				}}
+			>
+				Close
+			</button>
+			<input
+				class="w-1/3 bg-rose-500 text-white text-center rounded-lg cursor-pointer p-2 mt-2"
+				type="submit"
+				value={submitButtonText}
+			>
+		</section>
     </form>
 </dialog>

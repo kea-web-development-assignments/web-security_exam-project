@@ -39,13 +39,13 @@ export function validateUser(
     fields = ['username', 'firstName', 'lastName', 'email', 'password', 'phoneNum'],
     formId,
 ) {
-    return baseValidator(data, fields, formId);
+    return baseValidator(data, fields, userFieldsLookup, formId);
 }
 
 export const propertyFieldsLookup = {
     name: {
         label: 'Name',
-        regex: '^[a-zA-Z0-9 ]{3,30}$',
+        regex: '^[a-zA-Z0-9 ]{3,50}$',
     },
     place: {
         label: 'Location',
@@ -73,21 +73,21 @@ export function validateProperty(
     fields = ['name', 'place', 'lon', 'lat', 'pricePerNight', 'images'],
     formId,
 ) {
-    return baseValidator(data, fields, formId);
+    return baseValidator(data, fields, propertyFieldsLookup, formId);
 }
 
-function baseValidator(data, fields, formId) {
+function baseValidator(data, fields, fieldsLookup, formId) {
     const errors = {};
 
     for (const field of fields) {
-        if(data[field] === undefined || data[field] === '' || data[field]?.length === 0) {
-            errors[field] = fieldRequiredMessage(propertyFieldsLookup[field].label);
+        if(data[field] === undefined || data[field] === '' || data[field]?.length === 0 || data[field]?.[0]?.size === 0) {
+            errors[field] = fieldRequiredMessage(fieldsLookup[field].label);
         }
         else if(field === 'images') {
             errors[field] = validateImages(data[field]);
         }
-        else if(!(new RegExp(propertyFieldsLookup[field].regex)).test(data[field])) {
-            errors[field] = fieldInvalidMessage(propertyFieldsLookup[field].label);
+        else if(!(new RegExp(fieldsLookup[field].regex)).test(data[field])) {
+            errors[field] = fieldInvalidMessage(fieldsLookup[field].label);
         }
     }
 
@@ -110,6 +110,9 @@ function baseValidator(data, fields, formId) {
 function validateImages(images) {
     if(!Array.isArray(images)) {
         return 'Invalid image list';
+    }
+    if(images.length < 3) {
+        return 'Atleast 3 images need to be selected';
     }
 
     for (const image of images) {

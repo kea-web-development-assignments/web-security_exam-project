@@ -1,0 +1,64 @@
+<script>
+    import { enhance } from '$app/forms';
+    import { invalidateAll } from '$app/navigation';
+    import { page } from '$app/stores';
+    import { PUBLIC_DO_SPACES_IMAGE_CDN } from '$env/static/public';
+</script>
+
+<svelte:head>
+	<title>All properties | Airbnb</title>
+</svelte:head>
+
+<h1 class="[grid-area:header] text-4xl font-bold">All properties</h1>
+<section class="[grid-area:content] h-fit w-full flex flex-wrap justify-center gap-4">
+    {#if $page.data.properties.length}
+        {#each $page.data.properties as property}
+            <form
+                class="w-[22rem] min-w-[14rem] bg-white rounded-md drop-shadow-around-md"
+                method="POST"
+                action="?/blockProperty"
+                use:enhance={() => {
+                    return async ({ result, update }) => {
+                        if(result.status === 200) {
+                            await invalidateAll();
+                            alert('Property has been blocked.');
+                            return;
+                        }
+
+                        update();
+                    }
+                }}
+            >
+                <input type="hidden" name="id" value={property.id}>
+                <input type="hidden" name="email" value={property.users.email}>
+                <input type="hidden" name="firstName" value={property.users.firstName}>
+                <input type="hidden" name="lastName" value={property.users.lastName}>
+                <img
+                    class="w-full h-[12rem] object-cover rounded-t-md"
+                    src={`${PUBLIC_DO_SPACES_IMAGE_CDN}/${property.userId}/${property.id}/1.png`}
+                    alt={property.name}
+                >
+                <section class="p-3">
+                    <h3 class="text-lg font-bold text-ellipsis overflow-hidden text-nowrap mb-1">{property.name}</h3>
+                    <p class="text-ellipsis overflow-hidden line-clamp-2 mb-4">{property.place}</p>
+                    <section class="flex justify-end text-lg">
+                        <input
+                            class="w-1/3 bg-rose-500 text-white text-center rounded-lg cursor-pointer p-2 mt-2"
+                            type="submit"
+                            value="Block"
+                        >
+                    </section>
+                    {#if $page.status !== 200 && $page.form?.[property.id]?.error?.message}
+                        <p class="text-rose-500 text-center p-2">{$page.form?.[property.id]?.error?.message}</p>
+                    {/if}
+                </section>
+            </form>
+        {/each}
+    {:else}
+        <section class="[grid-area:content] h-fit w-full flex flex-col gap-2 bg-white rounded-md drop-shadow-around-md p-4">
+            <p class="text-lg text-center p-4">
+                No properties to list here
+            </p>
+        </section>
+    {/if}
+</section>
