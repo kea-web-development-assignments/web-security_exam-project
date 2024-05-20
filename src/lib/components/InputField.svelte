@@ -5,8 +5,10 @@
     export let placeholder = '';
     export let title = '';
     export let pattern = '.*';
+    export let accept;
     export let required = false;
     export let noRequiredMarker = false;
+    export let multiple = false;
     export let value = '';
     export let errorMessage = '';
 
@@ -31,7 +33,9 @@
         {placeholder}
         {title}
         {pattern}
+        {accept}
         {required}
+        {multiple}
         bind:value={value}
     />
     {#if errorMessage}

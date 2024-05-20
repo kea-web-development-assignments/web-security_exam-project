@@ -28,6 +28,16 @@ db = db
 
                     return query(args);
                 },
+            },
+            properties: {
+                //on create property, parse pricePerNight from string to float
+                create: async ({ args, query }) => {
+                    if(args.data.pricePerNight) {
+                        args.data.pricePerNight = parseFloat(args.data.pricePerNight);
+                    }
+
+                    return query(args);
+                },
             }
         },
         model: {
@@ -154,6 +164,16 @@ db = db
                     return query(args);
                 },
             },
+            properties: {
+                //on update property, parse pricePerNight from string to float
+                update: async ({ args, query }) => {
+                    if(args.data.pricePerNight) {
+                        args.data.pricePerNight = parseFloat(args.data.pricePerNight);
+                    }
+
+                    return query(args);
+                },
+            }
         },
     });
 

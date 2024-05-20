@@ -21,7 +21,7 @@ CREATE TABLE "users" (
 CREATE TABLE "properties" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
+    "place" TEXT NOT NULL,
     "lon" TEXT NOT NULL,
     "lat" TEXT NOT NULL,
     "price_per_night" REAL NOT NULL,

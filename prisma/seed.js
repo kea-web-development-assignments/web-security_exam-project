@@ -56,7 +56,7 @@ async function seed() {
         data: [
             {
                 name: 'A apartment',
-                address: 'A street, A city',
+                place: 'A street, A city',
                 lon: '12.5697339',
                 lat: '55.6753132',
                 pricePerNight: 1258,

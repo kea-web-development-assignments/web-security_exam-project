@@ -30,7 +30,7 @@ INSERT INTO users VALUES
 CREATE TABLE properties(
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
-    address TEXT NOT NULL,
+    place TEXT NOT NULL,
     lon TEXT NOT NULL,
     lat TEXT NOT NULL,
     price_per_night REAL NOT NULL,

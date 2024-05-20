@@ -29,7 +29,7 @@ model users {
 model properties {
   id            String   @id @default(uuid())
   name          String
-  address       String
+  place         String
   lon           String
   lat           String
   pricePerNight Float    @map("price_per_night") @db.Real

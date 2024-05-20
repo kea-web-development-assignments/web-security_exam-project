@@ -17,7 +17,7 @@ export async function GET({ url }) {
             const { name, place_formatted } = feature.properties ?? {};
             const [ lon, lat ] = feature.geometry?.coordinates ?? [];
 
-            return { name, place_formatted, coordinates: { lon, lat } };
+            return { place: name, place_formatted, coordinates: { lon, lat } };
         });
 
         return json({ locations });

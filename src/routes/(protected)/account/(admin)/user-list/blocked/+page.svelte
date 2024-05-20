@@ -13,7 +13,7 @@
     {#if $page.data.users.length}
         {#each $page.data.users as user}
             <form
-                class="w-full flex justify-between items-center text-lg p-3 rounded-md even:bg-gray-300"
+                class="w-full flex flex-col gap-1 justify-between items-start p-3 rounded-md even:bg-gray-300 md:flex-row md:gap-0 md:items-center lg:text-lg"
                 method="POST"
                 action="?/unblockUser"
                 use:enhance={() => {
@@ -34,8 +34,8 @@
                 </section>
                 <span class="flex-1 text-center text-ellipsis overflow-hidden">{user.email}</span>
                 <span class="flex-1 text-center text-ellipsis overflow-hidden">{user.phoneNum}</span>
-                <section class="flex-1 text-end">
-                    <input class="hidden" type="text" name="userId" value={user.id}>
+                <section class="flex-1 w-full flex md:w-fit md:[display:block_!important] md:text-end">
+                    <input type="hidden" name="userId" value={user.id}>
                     <input
                         class="flex-1 bg-rose-500 text-white rounded-full cursor-pointer p-2 px-4"
                         type="submit"
