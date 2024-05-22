@@ -1,8 +1,9 @@
 <script>
+    import { PUBLIC_DO_SPACES_IMAGE_CDN } from '$env/static/public';
     import { enhance } from '$app/forms';
     import { invalidateAll } from '$app/navigation';
     import { page } from '$app/stores';
-    import { PUBLIC_DO_SPACES_IMAGE_CDN } from '$env/static/public';
+    import { PropertyImage } from '$lib/components';
 </script>
 
 <svelte:head>
@@ -33,11 +34,10 @@
                 <input type="hidden" name="email" value={property.users.email}>
                 <input type="hidden" name="firstName" value={property.users.firstName}>
                 <input type="hidden" name="lastName" value={property.users.lastName}>
-                <img
-                    class="w-full h-[12rem] object-cover rounded-t-md"
+                <PropertyImage
                     src={`${PUBLIC_DO_SPACES_IMAGE_CDN}/${property.userId}/${property.id}/1.png`}
                     alt={property.name}
-                >
+                />
                 <section class="p-3">
                     <h3 class="text-lg font-bold text-ellipsis overflow-hidden text-nowrap mb-1">{property.name}</h3>
                     <p class="text-ellipsis overflow-hidden line-clamp-2 mb-4">{property.place}</p>
