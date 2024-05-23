@@ -3,10 +3,14 @@ services:
   web:
     build:
       context: .
+      args:
+        DB_CONNECTION_STRING: postgresql://postgres:postgres@db:5432/postgres?schema=public
+        ORIGIN: http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - 3000:3000
-    networks:
-      - svelte_kit_postgres_network
 
   db:
     image: postgres
@@ -16,8 +20,10 @@ services:
       POSTGRES_DB: postgres
     ports:
       - "5432:5432"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-
-networks:
-  svelte_kit_postgres_network:
+    # volumes:
+    #   - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5

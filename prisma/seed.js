@@ -10,6 +10,11 @@ seed()
     });
 
 async function seed() {
+    await db.users.deleteMany({});
+    await db.properties.deleteMany({});
+    await db.verificationCodes.deleteMany({});
+    await db.forgottenPasswordRequests.deleteMany({});
+
     const [ admin, userA, userB, userC ] = await db.users.createManyAndReturn({
         data: [
             {

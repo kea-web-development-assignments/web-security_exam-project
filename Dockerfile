@@ -1,16 +1,11 @@
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY package*.json .
-RUN npm ci
-COPY . .
-RUN npm run build
-RUN npm prune --production
-
 FROM node:18-alpine
+ARG DB_CONNECTION_STRING
+ARG ORIGIN
 WORKDIR /app
-COPY --from=builder /app/build build/
-COPY --from=builder /app/node_modules node_modules/
-COPY package.json .
+COPY . .
+RUN npm ci
 EXPOSE 3000
 ENV NODE_ENV=production
-CMD [ "node", "build" ]
+ENV DB_CONNECTION_STRING=$DB_CONNECTION_STRING
+ENV ORIGIN=$ORIGIN
+CMD sh seed-db-and-run.sh
