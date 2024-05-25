@@ -9,7 +9,7 @@
 	<title>Reset password | Airbnb</title>
 </svelte:head>
 
-<section class="flex-1 w-full flex justify-center items-center">
+<section class="flex-1 w-full flex justify-center items-center px-4">
 	<form
 		class="w-[24rem] flex flex-col gap-3 bg-white drop-shadow-around-md rounded-md p-4"
 		method="POST"

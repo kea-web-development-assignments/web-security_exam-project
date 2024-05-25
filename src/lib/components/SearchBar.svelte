@@ -21,7 +21,7 @@
     });
 </script>
 
-<section class="h-full w-72 z-10">
+<section class="h-full flex w-72 z-10">
     <SearchLocationInput
         initialLocation={initialLocation}
         on:location={(e) => updateLocationInUrl(e.detail)}

@@ -20,7 +20,7 @@
 </svelte:head>
 
 <h1 class="[grid-area:header] text-4xl font-bold">Account</h1>
-<section class="[grid-area:content] w-full ml-4">
+<section class="[grid-area:content] w-full lg:ml-4">
     <h2 class="text-3xl font-bold pb-4">Update profile</h2>
     <form
         class="w-full flex flex-col gap-3 bg-white drop-shadow-around-md rounded-md p-4 mx-auto sm:max-w-[66%] lg:max-w-[28rem]"
