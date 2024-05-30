@@ -2,7 +2,7 @@
     import { enhance } from '$app/forms';
     import { invalidateAll } from '$app/navigation';
     import { page } from '$app/stores';
-    import { PropertyFormDialog, PropertyImage } from '$lib/components';
+    import { PropertyFormDialog, PropertyCard } from '$lib/components';
 
     let showAddPropertyDialog = false;
     let showUpdatePropertyDialog = false;
@@ -18,35 +18,28 @@
 <section class="[grid-area:content] h-fit w-full flex flex-wrap justify-center gap-4">
     {#if $page.data.properties.length}
         {#each $page.data.properties as property}
-            <article
-                class="w-[22rem] min-w-[14rem] bg-white rounded-md drop-shadow-around-md"
-            >
-                <PropertyImage {property}/>
-                <section class="p-3">
-                    <h3 class="text-lg font-bold text-ellipsis overflow-hidden text-nowrap mb-1">{property.name}</h3>
-                    <p class="text-ellipsis overflow-hidden line-clamp-2 mb-4">{property.place}</p>
-                    <section class="flex justify-between text-lg">
-                        <button
-                            class="w-1/3 bg-blue-500 text-white text-center rounded-lg p-2 mt-2"
-                            on:click={() => {
-                                propertyFormData = property;
-                                showUpdatePropertyDialog = true;
-                            }}
-                        >
-                            Update
-                        </button>
-                        <button
-                            class="w-1/3 bg-rose-500 text-white text-center rounded-lg p-2 mt-2"
-                            on:click={() => {
-                                propertyFormData = property;
-                                deletePropertyDialog.showModal();
-                            }}
-                        >
-                            Delete
-                        </button>
-                    </section>
+            <PropertyCard {property}>
+                <section class="flex justify-between text-lg" slot="actions">
+                    <button
+                        class="w-1/3 bg-blue-500 text-white text-center rounded-lg p-2 mt-2"
+                        on:click={() => {
+                            propertyFormData = property;
+                            showUpdatePropertyDialog = true;
+                        }}
+                    >
+                        Update
+                    </button>
+                    <button
+                        class="w-1/3 bg-rose-500 text-white text-center rounded-lg p-2 mt-2"
+                        on:click={() => {
+                            propertyFormData = property;
+                            deletePropertyDialog.showModal();
+                        }}
+                    >
+                        Delete
+                    </button>
                 </section>
-            </article>
+            </PropertyCard>
         {/each}
     {:else}
         <section class="[grid-area:content] h-fit w-full flex flex-col gap-2 bg-white rounded-md drop-shadow-around-md p-4">
