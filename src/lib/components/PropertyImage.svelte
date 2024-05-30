@@ -11,7 +11,7 @@
 </script>
 
 <img
-    class="w-full h-[12rem] object-cover rounded-t-md"
+    class="w-full aspect-[4/3] object-cover rounded-t-md"
     src={`${PUBLIC_DO_SPACES_IMAGE_CDN}/${property.userId}/${property.id}/1.png`}
     alt={property.name}
     on:error={changeSrcToFallback}

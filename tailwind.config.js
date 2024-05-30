@@ -5,7 +5,13 @@ export default {
     extend: {
       dropShadow: {
         'around-md': '0 0px 5px rgba(0,0,0,0.15)'
-      }
+      },
+      screens: {
+        '3xl': '2048px',
+      },
+      aspectRatio: {
+        '4/3': '4 / 3',
+      },
     },
   },
   plugins: [],
