@@ -1,5 +1,4 @@
 <script>
-    import { PUBLIC_DO_SPACES_IMAGE_CDN } from '$env/static/public';
     import { enhance } from '$app/forms';
     import { invalidateAll } from '$app/navigation';
     import { page } from '$app/stores';
@@ -22,10 +21,7 @@
             <article
                 class="w-[22rem] min-w-[14rem] bg-white rounded-md drop-shadow-around-md"
             >
-                <PropertyImage
-                    src={`${PUBLIC_DO_SPACES_IMAGE_CDN}/${property.userId}/${property.id}/1.png`}
-                    alt={property.name}
-                />
+                <PropertyImage {property}/>
                 <section class="p-3">
                     <h3 class="text-lg font-bold text-ellipsis overflow-hidden text-nowrap mb-1">{property.name}</h3>
                     <p class="text-ellipsis overflow-hidden line-clamp-2 mb-4">{property.place}</p>
