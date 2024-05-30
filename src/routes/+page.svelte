@@ -15,7 +15,7 @@
 	$: {
 		lat = $page.url.searchParams?.get('lat') ?? lat;
 		lon = $page.url.searchParams?.get('lon') ?? lon;
-		map?.flyTo({ center: [ lon, lat ] })
+		map?.flyTo({ center: [ lon, lat ], zoom })
 	}
 
 	onMount(() => {
