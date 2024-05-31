@@ -27,7 +27,9 @@ export async function load() {
     } catch (error) {
         console.error('Failed to get users:', error)
 
-        return errorHandler(error);
+        return errorHandler(error, undefined, {
+            fatal: true
+        });
     }
 }
 

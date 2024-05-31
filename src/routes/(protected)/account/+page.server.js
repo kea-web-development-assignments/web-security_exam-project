@@ -22,7 +22,9 @@ export async function load({ locals }) {
     } catch (error) {
         console.error('Failed to get profile info:', error);
 
-        return errorHandler(error);
+        return errorHandler(error, undefined, {
+            fatal: true
+        });
     }
 }
 

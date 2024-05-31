@@ -1,26 +1,29 @@
-import { fail } from '@sveltejs/kit';
+import { fail, error } from '@sveltejs/kit';
 
-export default function(error, formId) {
-    if(error.status && error.message) {
+export default function(err, formId, options) {
+    const { fatal } = options ?? {};
+    let errorFunction = fatal ? error : fail;
+
+    if(err.status && err.message) {
         if(formId) {
-            return fail(error.status, {
-                [formId]: { error: { message: error.message } },
+            return errorFunction(err.status, {
+                [formId]: { error: { message: err.message } },
             });
         }
         else {
-            return fail(error.status, {
-                error: { message: error.message },
+            return errorFunction(err.status, {
+                error: { message: err.message },
             });
         }
     }
 
     if(formId) {
-        return fail(500, {
+        return errorFunction(500, {
             [formId]: { error: { message: 'Something went wrong, try again later.' } },
         });
     }
     else {
-        return fail(500, {
+        return errorFunction(500, {
             error: { message: 'Something went wrong, try again later.' },
         });
     }
