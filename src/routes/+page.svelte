@@ -1,6 +1,6 @@
 <script>
     import '$node-modules/mapbox-gl/dist/mapbox-gl.css';
-    import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
+    import { PUBLIC_MAPBOX_ACCESS_TOKEN, PUBLIC_DO_SPACES_IMAGE_CDN } from '$env/static/public';
     import { page } from '$app/stores';
     import { PropertyCard } from '$lib/components';
     import mapbox from 'mapbox-gl';
@@ -27,6 +27,37 @@
             center: [ lon, lat ],
             zoom,
         });
+
+        for (const property of $page.data.properties) {
+            const marker = new mapbox.Marker()
+                .setLngLat([ property.lon, property.lat ])
+                .setPopup(
+                    new mapbox.Popup({ offset: 25, closeButton: false, maxWidth: 'none' }) // add popups
+                        .setHTML(`
+                            <a href="/properties/${property.id}">
+                                <section class="w-[16rem] h-fit min-w-[0] bg-white rounded-md drop-shadow-around-md">
+                                    <img
+                                        class="w-full aspect-[4/3] object-cover rounded-t-md"
+                                        src="${PUBLIC_DO_SPACES_IMAGE_CDN}/${property.userId}/${property.id}/1.png"
+                                        alt="${property.name}"
+                                    >
+                                    <section class="p-3">
+                                        <h3 class="text-lg font-bold text-ellipsis overflow-hidden text-nowrap mb-1">${property.name}</h3>
+                                        <p class="text-ellipsis overflow-hidden line-clamp-2 mb-4">${property.place}</p>
+                                        <p class="text-ellipsis overflow-hidden text-nowrap" slot="more-info">
+                                            <strong>${property.pricePerNight} DKK</strong> night
+                                        </p>
+                                    </section>
+                                </section>
+                            </a>
+                        `)
+                )
+                .addTo(map);
+
+            marker.getElement().addEventListener("click", () => {
+                map.flyTo({ center: [ property.lon, property.lat ] })
+            });
+        }
     });
 
     onDestroy(() => {
@@ -69,3 +100,10 @@
       <div class="w-full h-full" bind:this="{mapContainer}" />
     </div>
 </div>
+
+<style>
+    :global(.mapboxgl-popup-content) {
+        padding: 0;
+        border-radius: 0.375rem;
+    }
+</style>
