@@ -1,0 +1,29 @@
+import db from '$lib/utils/db.js';
+import errorHandler from '$lib/utils/errorHandler.js';
+
+export async function load({ params }) {
+    try {
+        const { id } = params;
+        const property = await db.properties.findFirst({
+            where: {
+                id,
+                blocked: false,
+            }
+        });
+
+        if(!property) {
+            throw {
+                status: 404,
+                message: 'Property does not exist',
+            }
+        }
+
+        return { property };
+    } catch (error) {
+        console.error('Failed to get property:', error)
+
+        return errorHandler(error, undefined, {
+            fatal: true
+        });
+    }
+}
