@@ -40,12 +40,12 @@
 
 <div class="">
     <div class="[w-full] h-[calc(100%-5rem)]  absolute overflow-y-scroll lg:[&::-webkit-scrollbar]:hidden py-8 px-4 lg:w-3/5">
-        <section class={
-            'w-full h-fit [display:grid] [grid-template-columns:repeat(1,minmax(0,1fr))] [grid-auto-rows:auto] [grid-auto-flow:row] gap-6 ' +
-            'sm:[grid-template-columns:repeat(2,minmax(0,1fr))] ' +
-            '2xl:[grid-template-columns:repeat(3,minmax(0,1fr))] ' +
-            '3xl:[grid-template-columns:repeat(4,minmax(0,1fr))]'
-        }>
+        <section class={[
+            'w-full h-fit [display:grid] [grid-template-columns:repeat(1,minmax(0,1fr))] [grid-auto-rows:auto] [grid-auto-flow:row] gap-6',
+            'sm:[grid-template-columns:repeat(2,minmax(0,1fr))]',
+            '2xl:[grid-template-columns:repeat(3,minmax(0,1fr))]',
+            '3xl:[grid-template-columns:repeat(4,minmax(0,1fr))]',
+        ].join(' ')}>
             {#if $page.data.properties.length}
                 {#each $page.data.properties as property}
                     <a class="h-fit" href="/properties/{property.id}">
