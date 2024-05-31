@@ -49,7 +49,11 @@
             {#if $page.data.properties.length}
                 {#each $page.data.properties as property}
                     <a class="h-fit" href="/properties/{property.id}">
-                        <PropertyCard {property} fullWidth />
+                        <PropertyCard {property} fullWidth>
+                            <p class="text-ellipsis overflow-hidden text-nowrap" slot="more-info">
+                                <strong>{property.pricePerNight} DKK</strong> night
+                            </p>
+                        </PropertyCard>
                     </a>
                 {/each}
             {:else}
