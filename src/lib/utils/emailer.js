@@ -27,7 +27,7 @@ export async function sendVerificationMail({ email, firstName, lastName }, verif
 
     await mailer.messages().send({
         from,
-        to: MAILGUN_TEST_EMAIL, //For conveniance
+        to: MAILGUN_TEST_EMAIL || email,
         subject: 'Kea airbnb account requires verification',
         html: htmlBody,
     });
@@ -45,7 +45,7 @@ export async function sendPasswordResetMail({ email, firstName, lastName }, rese
 
     await mailer.messages().send({
         from,
-        to: MAILGUN_TEST_EMAIL, //For conveniance
+        to: MAILGUN_TEST_EMAIL || email,
         subject: 'Reset link for your Kea airbnb account',
         html: htmlBody,
     });
@@ -61,7 +61,7 @@ export async function sendAccountDeletedMail({ email, firstName, lastName }) {
 
     await mailer.messages().send({
         from,
-        to: MAILGUN_TEST_EMAIL, //For conveniance
+        to: MAILGUN_TEST_EMAIL || email,
         subject: 'Kea airbnb account has been deleted',
         html: htmlBody,
     });
@@ -77,7 +77,7 @@ export async function sendAccountBlockedMail({ email, firstName, lastName }) {
 
     await mailer.messages().send({
         from,
-        to: MAILGUN_TEST_EMAIL, //For conveniance
+        to: MAILGUN_TEST_EMAIL || email,
         subject: 'Kea airbnb account has been blocked',
         html: htmlBody,
     });
@@ -93,7 +93,7 @@ export async function sendAccountUnblockedMail({ email, firstName, lastName }) {
 
     await mailer.messages().send({
         from,
-        to: MAILGUN_TEST_EMAIL, //For conveniance
+        to: MAILGUN_TEST_EMAIL || email,
         subject: 'Kea airbnb account has been unblocked',
         html: htmlBody,
     });
@@ -110,7 +110,7 @@ export async function sendPropertyBlockedMail({ email, firstName, lastName }, pr
 
     await mailer.messages().send({
         from,
-        to: MAILGUN_TEST_EMAIL, //For conveniance
+        to: MAILGUN_TEST_EMAIL || email,
         subject: `Kea airbnb property "${propertyName}" has been blocked`,
         html: htmlBody,
     });
@@ -127,7 +127,7 @@ export async function sendPropertyUnblockedMail({ email, firstName, lastName }, 
 
     await mailer.messages().send({
         from,
-        to: MAILGUN_TEST_EMAIL, //For conveniance
+        to: MAILGUN_TEST_EMAIL || email,
         subject: `Kea airbnb property "${propertyName}" has been unblocked`,
         html: htmlBody,
     });
