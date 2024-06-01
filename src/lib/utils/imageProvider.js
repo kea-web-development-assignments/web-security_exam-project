@@ -101,3 +101,25 @@ export async function updateImagesInS3(userId, propertyId, images) {
         };
     }
 }
+
+export async function getImageCountInS3(userId, propertyId) {
+    if(!userId || !propertyId) {
+        return;
+    }
+
+    try {
+        const response = await s3.send(new ListObjectsV2Command({
+            Bucket: DO_SPACES_BUCKET_NAME,
+            Prefix: `${userId}/${propertyId}`,
+        }));
+
+        return response.Contents?.length ?? 0;
+    } catch(error) {
+        console.error("Failed to get property image count", error);
+
+        throw {
+            status: 500,
+            message: 'Failed to get property image count',
+        };
+    }
+}

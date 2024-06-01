@@ -1,5 +1,6 @@
 import db from '$lib/utils/db.js';
 import errorHandler from '$lib/utils/errorHandler.js';
+import { getImageCountInS3 } from '$lib/utils/imageProvider.js';
 
 export async function load({ params }) {
     try {
@@ -18,7 +19,9 @@ export async function load({ params }) {
             }
         }
 
-        return { property };
+        const imageCount = await getImageCountInS3(property.userId, property.id);
+
+        return { property, imageCount };
     } catch (error) {
         console.error('Failed to get property:', error)
 

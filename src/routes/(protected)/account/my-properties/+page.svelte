@@ -48,7 +48,7 @@
             </p>
         </section>
     {/if}
-    <article class="w-[22rem] flex justify-center items-center rounded-md drop-shadow-around-md">
+    <article class="w-[20rem] flex justify-center items-center rounded-md drop-shadow-around-md">
         <button
             class="text-blue-500 border border-blue-500 text-center duration-200 p-2 m-4 hover:bg-blue-100"
             on:click={() => { showAddPropertyDialog = true }}
