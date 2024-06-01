@@ -40,7 +40,7 @@
     <title>Airbnb</title>
 </svelte:head>
 
-<section class="">
+<section>
     <section class="[w-full] h-[calc(100%-5rem)]  absolute overflow-y-scroll lg:[&::-webkit-scrollbar]:hidden py-8 px-4 lg:w-3/5">
         {#if loading}
             <section class="flex flex-col gap-2 justify-center items-center">
