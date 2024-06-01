@@ -40,8 +40,8 @@
     <title>Airbnb</title>
 </svelte:head>
 
-<div class="">
-    <div class="[w-full] h-[calc(100%-5rem)]  absolute overflow-y-scroll lg:[&::-webkit-scrollbar]:hidden py-8 px-4 lg:w-3/5">
+<section class="">
+    <section class="[w-full] h-[calc(100%-5rem)]  absolute overflow-y-scroll lg:[&::-webkit-scrollbar]:hidden py-8 px-4 lg:w-3/5">
         {#if loading}
             <section class="flex flex-col gap-2 justify-center items-center">
                 <div class="h-16 w-16 rounded-full border [border-width:7px] border-gray-300 border-t-rose-500 animate-spin" />
@@ -75,8 +75,8 @@
                 </section>
             {/if}
         {/if}
-    </div>
-    <div class="hidden w-2/5 h-[calc(100%-5rem)] absolute right-0 lg:block">
+    </section>
+    <section class="hidden w-2/5 h-[calc(100%-5rem)] absolute right-0 lg:block">
         <Map
             accessToken={PUBLIC_MAPBOX_ACCESS_TOKEN}
             center={[ lon, lat ]}
@@ -101,8 +101,8 @@
                 </Marker>
             {/each}
         </Map>
-    </div>
-</div>
+    </section>
+</section>
 
 <style>
     :global(.mapboxgl-popup-content) {
