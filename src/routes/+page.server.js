@@ -1,10 +1,15 @@
 import db from '$lib/utils/db.js';
 import errorHandler from '$lib/utils/errorHandler.js';
 
-export async function load() {
+export async function load({ locals }) {
     try {
         const properties = await db.properties.findMany({
-            where: { blocked: false },
+            where: {
+                blocked: false,
+                NOT: {
+                    userId: locals.user.sub,
+                }
+            },
             select: {
                 id: true,
                 name: true,
