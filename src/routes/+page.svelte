@@ -4,6 +4,7 @@
     import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
     import { page } from '$app/stores';
     import { PropertyCard } from '$lib/components';
+    import mapIcon from '$lib/images/map-icon.svg'
 
     let map;
     let zoom = 12;
@@ -13,6 +14,7 @@
 
     let loading = true;
     let properties = [];
+    let displayList = false;
 
     $: map?.on('movestart', onMapMoveStart);
     $: {
@@ -41,7 +43,13 @@
 </svelte:head>
 
 <section>
-    <section class="[w-full] h-[calc(100%-5rem)]  absolute overflow-y-scroll lg:[&::-webkit-scrollbar]:hidden py-8 px-4 lg:w-3/5">
+    <section
+        class={[
+            '[width:100%] h-[calc(100%-5rem)] absolute overflow-y-scroll lg:[&::-webkit-scrollbar]:hidden py-8 px-4',
+            displayList ? 'block' : 'hidden',
+            'lg:w-3/5 lg:block',
+        ].join(' ')}
+    >
         {#if loading}
             <section class="flex flex-col gap-2 justify-center items-center">
                 <div class="h-16 w-16 rounded-full border [border-width:7px] border-gray-300 border-t-rose-500 animate-spin" />
@@ -76,7 +84,13 @@
             {/if}
         {/if}
     </section>
-    <section class="hidden w-2/5 h-[calc(100%-5rem)] absolute right-0 lg:block">
+    <section
+        class={[
+            '[width:100%] h-[calc(100%-5rem)] absolute right-0',
+            displayList ? 'hidden' : 'block',
+            'lg:w-2/5 lg:block',
+        ].join(' ')}
+    >
         <Map
             accessToken={PUBLIC_MAPBOX_ACCESS_TOKEN}
             center={[ lon, lat ]}
@@ -101,6 +115,20 @@
                 </Marker>
             {/each}
         </Map>
+    </section>
+    <section class="w-full h-40 absolute [display:flex] justify-center items-center bottom-0 lg:hidden">
+        <button
+            class="max-w-40 flex justify-center items-center gap-3 bg-black color-white font-bold rounded-full p-3"
+            on:click={() => {
+                displayList = !displayList;
+                setTimeout(() => { //map.resize seems to have no effect without a small delay
+                    map.resize();
+                }, 50);
+            }}
+        >
+            Show { displayList ? 'map' : 'list' }
+            <img class="w-5" src={mapIcon} alt="">
+        </button>
     </section>
 </section>
 
