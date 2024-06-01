@@ -63,8 +63,10 @@ db = db
 
                     return { user, verificationCode };
                 },
-                verifyAccount: async (code) => {
-                    const verificationCode = await db.verificationCodes.findFirst({ where: { id: code } });
+                verifyAccount: async (userId, code) => {
+                    const verificationCode = await db.verificationCodes.findFirst({
+                        where: { id: code, userId },
+                    });
 
                     if(!verificationCode) {
                         throw {
@@ -74,10 +76,10 @@ db = db
                     }
 
                     const user = await db.users.update({
-                        where: { id: verificationCode.userId },
+                        where: { id: userId },
                         data: { verified: true },
                     });
-                    
+
                     if(!user) {
                         throw {
                             status: 404,

@@ -15,10 +15,11 @@ const domain = 'sandbox2ed00ddcd76e4773a0e4d6d155292047.mailgun.org';
 const from = 'KEA airbnb <postmaster@sandbox2ed00ddcd76e4773a0e4d6d155292047.mailgun.org>'
 const mailer = mailgun({ apiKey: MAILGUN_API_KEY, domain });
 
-export async function sendVerificationMail({ email, firstName, lastName }, verificationCode, baseUrl) {
+export async function sendVerificationMail({ id, email, firstName, lastName }, verificationCode, baseUrl) {
     const htmlBody = render({
         template: VerifyAccount,
         props: {
+            userId: id,
             fullName: `${firstName} ${lastName}`,
             baseUrl,
             verificationCode,

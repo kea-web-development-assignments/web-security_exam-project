@@ -25,7 +25,7 @@ export const actions = {
                 error: { message: 'Your account has been deleted, contact support for more info.' },
             });
         }
-        if(!user.verified) {
+        if(user.blocked) {
             return fail(403, {
                 error: { message: 'Your account has been blocked, contact support for more info.' },
             });

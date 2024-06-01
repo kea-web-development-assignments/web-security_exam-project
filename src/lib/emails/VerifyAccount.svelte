@@ -1,6 +1,7 @@
 <script>
 	import { Button, Hr, Html, Text } from 'svelte-email';
 
+    export let userId;
 	export let fullName;
     export let baseUrl;
     export let verificationCode;
@@ -16,7 +17,7 @@
 	</Text>
 	<Hr />
     <Button
-        href="{baseUrl}/verify-account/{verificationCode}"
+        href="{baseUrl}/verify-account/{verificationCode}?userId={userId}"
         style={{
             color: 'white',
             'background-color': '#f43f5e',

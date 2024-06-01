@@ -5,16 +5,18 @@
 
 	onMount(async () => {
 		const { verificationCode } = $page.params;
+        const { userId } = Object.fromEntries($page.url.searchParams);
 
-        if(!verificationCode) {
-            alert('Missing verification code in url!');
+        if(!userId) {
+            alert('Missing user id!');
             return;
         }
 
         let response;
         try {
-            response = await fetch(`/api/verify-account/${verificationCode}`, {
+            response = await fetch(`/api/users/${userId}/verify-account`, {
                 method: 'POST',
+                body: JSON.stringify({ code: verificationCode }),
             });
         } catch (error) {
             console.error('Failed to verify account:', error);
