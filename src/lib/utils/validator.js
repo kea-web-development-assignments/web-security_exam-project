@@ -51,6 +51,11 @@ export const propertyFieldsLookup = {
         label: 'Location',
         regex: '^[a-zA-Z0-9 ]{3,100}$',
     },
+    description: {
+        label: 'Description',
+        regex: '^[^]{0,2500}$',
+        message: 'Must be valid description, less than 2500 characters',
+    },
     lon: {
         label: 'Longitude',
         regex: '^-?[0-9]+(\\.?[0-9]+)?$',
@@ -87,7 +92,7 @@ function baseValidator(data, fields, fieldsLookup, formId) {
             errors[field] = validateImages(data[field]);
         }
         else if(!(new RegExp(fieldsLookup[field].regex)).test(data[field])) {
-            errors[field] = fieldInvalidMessage(fieldsLookup[field].label);
+            errors[field] = fieldsLookup[field].message ?? fieldInvalidMessage(fieldsLookup[field].label);
         }
     }
 

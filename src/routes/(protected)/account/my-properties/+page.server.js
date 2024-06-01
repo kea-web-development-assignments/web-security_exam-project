@@ -14,6 +14,7 @@ export async function load({ locals }) {
                 id: true,
                 name: true,
                 place: true,
+                description: true,
                 lon: true,
                 lat: true,
                 pricePerNight: true,
@@ -40,8 +41,13 @@ export const actions = {
             const formData = await request.formData();
             let data = Object.fromEntries(formData);
             data.images = formData.getAll('images');
+            const validationFields = ['name', 'place', 'lon', 'lat', 'pricePerNight', 'images'];
 
-            const validationResult = validateProperty(data, undefined, 'addPropertyForm');
+            if(data.description) {
+                validationFields.push('description');
+            }
+
+            const validationResult = validateProperty(data, validationFields, 'addPropertyForm');
             if(validationResult.status === 400) {
                 return validationResult;
             }
@@ -71,6 +77,9 @@ export const actions = {
 
             if(data.images?.[0]?.size) {
                 validationFields.push('images');
+            }
+            if(data.description) {
+                validationFields.push('description');
             }
 
             const validationResult = validateProperty(data, validationFields, 'updatePropertyForm');

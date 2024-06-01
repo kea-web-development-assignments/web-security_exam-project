@@ -70,6 +70,9 @@
             <h2 class="text-xl line-clamp-2 md:text-ellipsis md:overflow-hidden md:text-nowrap">
                 {$page.data.property.place}
             </h2>
+            <p class="whitespace-pre-line mt-2">
+                {$page.data.property.description}
+            </p>
         </section>
         <section class="w-[100%] max-w-[22rem] h-fit bg-white border border-gray-300 rounded-lg drop-shadow-around-md p-6 mx-auto md:w-1/3">
             <h3 class="text-lg">

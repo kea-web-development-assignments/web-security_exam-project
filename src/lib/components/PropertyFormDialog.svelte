@@ -1,7 +1,7 @@
 <script>
     import { enhance } from '$app/forms';
     import { page } from '$app/stores';
-    import { InputField, SearchLocationInput } from '$lib/components';
+    import { InputField, TextAreaField, SearchLocationInput } from '$lib/components';
 	import { propertyFieldsLookup } from '$lib/utils/validator.js';
 
     export let data = {};
@@ -104,6 +104,13 @@
 			required={imagesRequired}
 			multiple
 			bind:value={data.images}
+		/>
+        <TextAreaField
+			name="description"
+			label="Description"
+			placeholder="Ocean view apartment..."
+			errorMessage={$page.form?.[errorFormId]?.errors?.description}
+			bind:value={data.description}
 		/>
 		{#if $page.status !== 200 && $page.form?.[errorFormId]?.error?.message}
 			<p class="text-rose-500 text-center">{$page.form?.[errorFormId]?.error?.message}</p>

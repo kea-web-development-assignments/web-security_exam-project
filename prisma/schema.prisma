@@ -30,6 +30,7 @@ model properties {
   id            String   @id @default(uuid())
   name          String
   place         String
+  description   String   @default("")
   lon           String
   lat           String
   pricePerNight Float    @map("price_per_night") @db.Real
