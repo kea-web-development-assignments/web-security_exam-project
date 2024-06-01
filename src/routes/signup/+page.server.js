@@ -1,22 +1,26 @@
 import db from '$lib/utils/db.js';
 import { validateUser } from '$lib/utils/validator.js'
-import { redirect } from '@sveltejs/kit';
 import { sendVerificationMail } from '$lib/utils/emailer.js';
+import errorHandler from '$lib/utils/errorHandler.js';
 
 export const actions = {
     default: async ({ request, url }) => {
-        let data = Object.fromEntries(await request.formData());
-        const validationResult = validateUser(data);
+        try {
+            let data = Object.fromEntries(await request.formData());
+            const validationResult = validateUser(data);
 
-        if(validationResult.status === 400) {
-            return validationResult;
+            if(validationResult.status === 400) {
+                return validationResult;
+            }
+            data = validationResult;
+
+            const { user, verificationCode } = await db.users.signup(data);
+
+            await sendVerificationMail(user, verificationCode, url.origin);
+
+            throw { status: 303, location: '/login' };
+        } catch (error) {
+            return errorHandler(error, undefined, { logMessage: 'Failed to signup' });
         }
-        data = validationResult;
-
-        const { user, verificationCode } = await db.users.signup(data);
-
-        await sendVerificationMail(user, verificationCode, url.origin);
-
-        return redirect(303, `/login`);
     },
 }

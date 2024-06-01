@@ -1,6 +1,13 @@
-import { fail, error } from '@sveltejs/kit';
+import { fail, error, redirect } from '@sveltejs/kit';
 
-export default function(err, formId, options) {
+export default function(err, formId, options = {}) {
+    if(err.status?.toString().startsWith('3')) {
+        return redirect(err.status, err.location);
+    }
+    if(options.logMessage) {
+        console.error(`${options.logMessage}:`, err);
+    }
+
     const { fatal } = options ?? {};
     let errorFunction = fatal ? error : fail;
 
