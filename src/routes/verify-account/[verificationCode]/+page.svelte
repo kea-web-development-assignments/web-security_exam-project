@@ -3,8 +3,8 @@
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
 
-	onMount(async () => {
-		const { verificationCode } = $page.params;
+    onMount(async () => {
+        const { verificationCode } = $page.params;
         const { userId } = Object.fromEntries($page.url.searchParams);
 
         if(!userId) {
@@ -35,9 +35,9 @@
 
         alert('Your account has been verified!');
         goto('/login');
-	});
+    });
 </script>
 
 <svelte:head>
-	<title>Verify account | Airbnb</title>
+    <title>Verify account | Airbnb</title>
 </svelte:head>

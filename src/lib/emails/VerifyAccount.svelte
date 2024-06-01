@@ -1,21 +1,21 @@
 <script>
-	import { Button, Hr, Html, Text } from 'svelte-email';
+    import { Button, Hr, Html, Text } from 'svelte-email';
 
     export let userId;
-	export let fullName;
+    export let fullName;
     export let baseUrl;
     export let verificationCode;
 </script>
 
 <Html lang="en">
-	<Text>
-		Hello, {fullName}!
-	</Text>
-	<Hr />
-	<Text>
-		Please verify your account by clicking on the link below.
-	</Text>
-	<Hr />
+    <Text>
+        Hello, {fullName}!
+    </Text>
+    <Hr />
+    <Text>
+        Please verify your account by clicking on the link below.
+    </Text>
+    <Hr />
     <Button
         href="{baseUrl}/verify-account/{verificationCode}?userId={userId}"
         style={{
@@ -29,8 +29,8 @@
     >
         Verify account
     </Button>
-	<Hr />
-	<Text>
-		Best regards, KEA Airbnb
-	</Text>
+    <Hr />
+    <Text>
+        Best regards, KEA Airbnb
+    </Text>
 </Html>
