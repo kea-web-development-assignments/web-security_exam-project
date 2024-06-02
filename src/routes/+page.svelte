@@ -6,6 +6,8 @@
     import { PropertyCard } from '$lib/components';
     import mapIcon from '$lib/images/map-icon.svg'
 
+    let screenWidth;
+
     let map;
     let zoom = 12;
     //coordinates for Copenhagen
@@ -22,11 +24,23 @@
         lon = $page.url.searchParams?.get('lon') ?? lon;
         map?.flyTo({ center: [ lon, lat ], zoom });
     }
+    $: if(screenWidth && screenWidth < 1024) { //1024 == lg
+        properties = $page.data.properties;
+        loading = false;
+    }
 
     function onMapMoveStart() {
+        if(screenWidth < 1024) { //1024 == lg
+            return;
+        }
+
         loading = true;
     }
     function onMapMoveEnd() {
+        if(screenWidth < 1024) { //1024 == lg
+            return;
+        }
+
         properties = $page.data.properties.filter((property) => {
             return map.getBounds().contains([property.lon, property.lat]);
         });
@@ -41,6 +55,8 @@
 <svelte:head>
     <title>Airbnb</title>
 </svelte:head>
+
+<svelte:window bind:innerWidth={screenWidth} />
 
 <section>
     <section
