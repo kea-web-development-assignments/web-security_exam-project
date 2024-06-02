@@ -28,6 +28,6 @@ export async function load({ locals }) {
     } catch (error) {
         console.error('Failed to get properties:', error)
 
-        return errorHandler(error);
+        return errorHandler(error, undefined, { fatal: true });
     }
 }
