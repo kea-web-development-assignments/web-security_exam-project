@@ -1,10 +1,14 @@
-import { redirect } from '@sveltejs/kit'
+import errorHandler from '$lib/utils/errorHandler.js';
 
 export const actions = {
     default: async (event) => {
-        event.cookies.delete('access_token', { path: '/' });
-        event.locals.user = null;
+        try {
+            event.cookies.delete('access_token', { path: '/' });
+            event.locals.user = null;
 
-        return redirect(303, '/login');
+            throw { status: 303, location: '/login' };
+        } catch (error) {
+            return errorHandler(error, undefined, { logMessage: 'Failed to logout' });
+        }
     }
 };
