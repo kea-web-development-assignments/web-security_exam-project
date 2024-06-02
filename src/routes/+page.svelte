@@ -65,7 +65,7 @@
                     '2xl:[grid-template-columns:repeat(3,minmax(0,1fr))]',
                     '3xl:[grid-template-columns:repeat(4,minmax(0,1fr))]',
                 ].join(' ')}>
-                        {#each properties as property}
+                        {#each properties as property (property.id)}
                             <a class="h-fit" href="/properties/{property.id}">
                                 <PropertyCard {property} fullWidth>
                                     <p class="text-ellipsis overflow-hidden text-nowrap" slot="more-info">
@@ -98,7 +98,7 @@
             bind:map={map}
             on:recentre={onMapMoveEnd}
         >
-            {#each properties as property}
+            {#each properties as property (property.id)}
                 <Marker
                     lat={property.lat}
                     lng={property.lon}
