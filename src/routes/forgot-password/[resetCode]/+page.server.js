@@ -1,5 +1,6 @@
 import db from '$lib/utils/db.js';
 import { validateUser } from '$lib/utils/validator.js'
+import errorHandler from '$lib/utils/errorHandler.js'
 
 export const actions = {
     default: async ({ params, request }) => {

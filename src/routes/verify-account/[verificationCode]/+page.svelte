@@ -15,7 +15,7 @@
         let response;
         try {
             response = await fetch(`/api/users/${userId}/verify-account`, {
-                method: 'POST',
+                method: 'PUT',
                 body: JSON.stringify({ code: verificationCode }),
             });
         } catch (error) {

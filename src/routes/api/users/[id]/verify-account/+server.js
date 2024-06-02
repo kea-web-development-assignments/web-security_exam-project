@@ -1,27 +1,23 @@
 import db from '$lib/utils/db.js';
-import { json } from '@sveltejs/kit';
+import apiErrorHandler from '$lib/utils/apiErrorHandler.js';
 
-export async function POST({ request, params }) {
+export async function PUT({ request, params }) {
     try {
+        if(!request.body) {
+            throw {
+                status: 400,
+                message: 'Data cannot be empty',
+            };
+        }
+        
         const { code } = await request.json();
 
         await db.users.verifyAccount(params.id, code);
 
-        return new Response(200);
+        return new Response();
     } catch (error) {   
         console.error('Failed to verify account', error)
 
-        if(error.status && error.message) {
-            return json({
-                error: { message: error.message },
-                
-            }, { status: error.status });
-        }
-  
-        return json({
-            error: {
-                message: 'Something went wrong, try again later.',
-            }
-        }, { status: 500 });
+        return apiErrorHandler(error);
     }
 }

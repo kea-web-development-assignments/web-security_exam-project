@@ -1,5 +1,6 @@
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 import { json } from '@sveltejs/kit';
+import apiErrorHandler from '$lib/utils/apiErrorHandler.js';
 
 export async function GET({ url }) {
     try {
@@ -24,11 +25,6 @@ export async function GET({ url }) {
     } catch (error) {   
         console.error('Failed to get locations', error)
   
-        //not passing the error to the response, as it could contain sensitive information (the access token)
-        return json({
-            error: {
-                message: 'Something went wrong, failed to get locations, try again later.',
-            }
-        }, { status: 500 })
+        return apiErrorHandler(error);
     }
 }

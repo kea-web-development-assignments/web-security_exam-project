@@ -32,6 +32,12 @@ export const userFieldsLookup = {
         label: 'Phone number',
         regex: '^[0-9]{8}$',
     },
+    deletedAt: {
+        label: 'Deleted at',
+    },
+    blocked: {
+        label: 'Blocked',
+    },
 };
 
 export function validateUser(
@@ -71,6 +77,9 @@ export const propertyFieldsLookup = {
     images: {
         label: 'Images',
     },
+    blocked: {
+        label: 'Blocked',
+    },
 };
 
 export function validateProperty(
@@ -82,6 +91,9 @@ export function validateProperty(
 }
 
 function baseValidator(data, fields, fieldsLookup, formId) {
+    fields = [...new Set(fields)]; //remove field duplicates
+    fields = fields.filter((field) => fieldsLookup[field]); //only check fields in the lookup
+
     const errors = {};
 
     for (const field of fields) {
@@ -91,7 +103,7 @@ function baseValidator(data, fields, fieldsLookup, formId) {
         else if(field === 'images') {
             errors[field] = validateImages(data[field]);
         }
-        else if(!(new RegExp(fieldsLookup[field].regex)).test(data[field])) {
+        else if(fieldsLookup[field].regex && !(new RegExp(fieldsLookup[field].regex)).test(data[field])) {
             errors[field] = fieldsLookup[field].message ?? fieldInvalidMessage(fieldsLookup[field].label);
         }
     }

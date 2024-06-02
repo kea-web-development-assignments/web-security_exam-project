@@ -10,6 +10,9 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			'$node-modules': './node_modules',
+		},
+		csrf: {
+			checkOrigin: false,
 		}
 	},
 	preprocess: vitePreprocess(),

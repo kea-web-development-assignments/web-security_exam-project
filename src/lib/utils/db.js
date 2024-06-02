@@ -100,10 +100,9 @@ db = db
                         };
                     }
 
-                    const passwordHash = await bcrypt.hash(newPassword, 10);
                     const user = await db.users.update({
                         where: { id: forgottenPasswordRequest.userId },
-                        data: { password: passwordHash },
+                        data: { password: newPassword },
                     });
 
                     if(!user) {

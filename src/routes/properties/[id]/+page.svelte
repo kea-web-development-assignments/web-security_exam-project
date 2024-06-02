@@ -34,6 +34,14 @@
 </svelte:head>
 
 <section class="w-full max-w-[1200px] mx-auto px-6 py-12">
+    <section class="w-full flex justify-start items-center mb-8">
+        <a
+            class="underline"
+            href="/"
+        >
+            ← Back to search
+        </a>
+    </section>
     <ul class="w-full relative flex justify-center items-center mb-8">
         {#each { length: $page.data.imageCount || 1 } as _, i}
             <li

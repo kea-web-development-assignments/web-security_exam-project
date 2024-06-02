@@ -93,13 +93,11 @@ export const actions = {
             const property = await db.properties.update({
                 where: { id: propertyId, userId: locals.user.sub },
                 data,
-            });
-
-            if(!property) {
-                return fail(404, {
+            }).catch((err) => {
+                if(err.meta?.cause === 'Record to update not found.') return fail(404, {
                     updatePropertyForm: { error: { message: 'Property not found' } },
                 });
-            }
+            });
 
             if(images) {
                 await updateImagesInS3(property.userId, property.id, images);
