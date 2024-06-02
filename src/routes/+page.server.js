@@ -7,7 +7,7 @@ export async function load({ locals }) {
             where: {
                 blocked: false,
                 NOT: {
-                    userId: locals.user.sub,
+                    userId: locals.user?.sub ?? undefined,
                 }
             },
             select: {
