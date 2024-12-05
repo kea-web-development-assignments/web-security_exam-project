@@ -12,10 +12,7 @@ services:
   web:
     build:
       context: .
-      args:
-        DB_CONNECTION_STRING: |
-          postgresql://postgres:postgres@db:5432/postgres?schema=public
-        ORIGIN: http://localhost:3000
+    env_file: .env
     depends_on:
       db:
         condition: service_healthy
