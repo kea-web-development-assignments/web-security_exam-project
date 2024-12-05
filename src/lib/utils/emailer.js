@@ -1,5 +1,12 @@
-import mailgun from 'mailgun-js';
-import { MAILGUN_API_KEY, MAILGUN_TEST_EMAIL } from '$env/static/private';
+import nodemailer from 'nodemailer';
+import {
+    SMTP_HOST,
+    SMTP_PORT,
+    SMTP_USER,
+    SMTP_PASSWORD,
+    SMTP_FROM_EMAIL,
+    SMTP_TEST_EMAIL,
+} from '$env/static/private';
 import { render } from 'svelte-email';
 import {
     VerifyAccount,
@@ -11,9 +18,16 @@ import {
     PropertyUnblocked,
 } from '$lib/emails';
 
-const domain = 'sandbox2ed00ddcd76e4773a0e4d6d155292047.mailgun.org';
-const from = 'KEA airbnb <postmaster@sandbox2ed00ddcd76e4773a0e4d6d155292047.mailgun.org>'
-const mailer = mailgun({ apiKey: MAILGUN_API_KEY, domain });
+const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: SMTP_PORT,
+    auth: {
+        user: SMTP_USER,
+        pass: SMTP_PASSWORD,
+    },
+});
+
+const from = `KEA airbnb <${SMTP_FROM_EMAIL}>`;
 
 export async function sendVerificationMail({ id, email, firstName, lastName }, verificationCode, baseUrl) {
     const htmlBody = render({
@@ -26,9 +40,9 @@ export async function sendVerificationMail({ id, email, firstName, lastName }, v
         },
     });
 
-    await mailer.messages().send({
+    await transporter.sendMail({
         from,
-        to: MAILGUN_TEST_EMAIL || email,
+        to: SMTP_TEST_EMAIL || email,
         subject: 'Kea airbnb account requires verification',
         html: htmlBody,
     });
@@ -44,9 +58,9 @@ export async function sendPasswordResetMail({ email, firstName, lastName }, rese
         },
     });
 
-    await mailer.messages().send({
+    await transporter.sendMail({
         from,
-        to: MAILGUN_TEST_EMAIL || email,
+        to: SMTP_TEST_EMAIL || email,
         subject: 'Reset link for your Kea airbnb account',
         html: htmlBody,
     });
@@ -60,9 +74,9 @@ export async function sendAccountDeletedMail({ email, firstName, lastName }) {
         },
     });
 
-    await mailer.messages().send({
+    await transporter.sendMail({
         from,
-        to: MAILGUN_TEST_EMAIL || email,
+        to: SMTP_TEST_EMAIL || email,
         subject: 'Kea airbnb account has been deleted',
         html: htmlBody,
     });
@@ -76,9 +90,9 @@ export async function sendAccountBlockedMail({ email, firstName, lastName }) {
         },
     });
 
-    await mailer.messages().send({
+    await transporter.sendMail({
         from,
-        to: MAILGUN_TEST_EMAIL || email,
+        to: SMTP_TEST_EMAIL || email,
         subject: 'Kea airbnb account has been blocked',
         html: htmlBody,
     });
@@ -92,9 +106,9 @@ export async function sendAccountUnblockedMail({ email, firstName, lastName }) {
         },
     });
 
-    await mailer.messages().send({
+    await transporter.sendMail({
         from,
-        to: MAILGUN_TEST_EMAIL || email,
+        to: SMTP_TEST_EMAIL || email,
         subject: 'Kea airbnb account has been unblocked',
         html: htmlBody,
     });
@@ -109,9 +123,9 @@ export async function sendPropertyBlockedMail({ email, firstName, lastName }, pr
         },
     });
 
-    await mailer.messages().send({
+    await transporter.sendMail({
         from,
-        to: MAILGUN_TEST_EMAIL || email,
+        to: SMTP_TEST_EMAIL || email,
         subject: `Kea airbnb property "${propertyName}" has been blocked`,
         html: htmlBody,
     });
@@ -126,9 +140,9 @@ export async function sendPropertyUnblockedMail({ email, firstName, lastName }, 
         },
     });
 
-    await mailer.messages().send({
+    await transporter.sendMail({
         from,
-        to: MAILGUN_TEST_EMAIL || email,
+        to: SMTP_TEST_EMAIL || email,
         subject: `Kea airbnb property "${propertyName}" has been unblocked`,
         html: htmlBody,
     });
