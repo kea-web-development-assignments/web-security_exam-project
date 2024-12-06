@@ -10,4 +10,4 @@ test:
     - apk update
     - apk add yamllint
     - apk add shellcheck
-    - npm i --production
+    - npm i
