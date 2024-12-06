@@ -12,6 +12,8 @@ services:
       - 443:443
     depends_on:
       - web
+    networks:
+      - proxy_web
   web:
     build:
       context: .
@@ -19,6 +21,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - proxy_web
+      - web_db
   db:
     image: postgres
     environment:
@@ -33,5 +38,10 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - web_db
 volumes:
   pgdata:
+networks:
+  proxy_web:
+  web_db:
