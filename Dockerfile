@@ -5,4 +5,4 @@ RUN npm ci
 COPY . .
 EXPOSE 3000
 ENV NODE_ENV=production
-CMD sh seed-db-and-run.sh
+CMD ["sh", "-c", "npx prisma generate && npx prisma db push && npx prisma db seed && npm run build && node build"]
