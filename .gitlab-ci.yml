@@ -5,7 +5,7 @@ test:
     - yamllint *.yml
     - shellcheck ./bin/*
     - npm run lint
-    - npm audit
+    - npm run audit
   before_script:
     - apk update
     - apk add yamllint
