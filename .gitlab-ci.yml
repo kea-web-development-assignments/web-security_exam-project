@@ -1,0 +1,13 @@
+---
+test:
+  image: node:18-alpine
+  script:
+    - yamllint *.yml
+    - shellcheck ./bin/*
+    - npm run lint
+    - npm audit
+  before_script:
+    - apk update
+    - apk add yamllint
+    - apk add shellcheck
+    - npm i --production
