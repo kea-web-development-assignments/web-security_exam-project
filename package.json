@@ -6,7 +6,8 @@
 		"docker:dev": "docker-compose up --build",
 		"build": "vite build",
 		"preview": "vite preview",
-		"lint": "eslint ./src/*"
+		"lint": "eslint ./src/*",
+		"audit": "level=$(npm audit --parseable | grep -E 'high|critical' | wc -l | rev); [ $level == 0 ] && exit 0"
 	},
 	"prisma": {
 		"seed": "node prisma/seed.js"
@@ -15,9 +16,8 @@
 		"@eslint/js": "^9.16.0",
 		"@fontsource/fira-mono": "^4.5.10",
 		"@neoconfetti/svelte": "^1.0.0",
-		"@sveltejs/adapter-auto": "^3.0.0",
-		"@sveltejs/adapter-node": "^5.0.1",
-		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/adapter-node": "^5.2.9",
+		"@sveltejs/kit": "^2.9.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"autoprefixer": "^10.4.19",
 		"eslint": "^9.16.0",
