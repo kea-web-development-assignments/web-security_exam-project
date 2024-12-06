@@ -2,6 +2,7 @@ import db from '$lib/utils/db.js';
 import errorHandler from '$lib/utils/errorHandler.js';
 import { validateProperty } from '$lib/utils/validator.js';
 import { saveImagesToS3, updateImagesInS3, deleteImagesFromS3 } from '$lib/utils/imageProvider.js';
+import { fail } from '@sveltejs/kit';
 
 export async function load({ locals }) {
     try {

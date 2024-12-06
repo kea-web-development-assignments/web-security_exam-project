@@ -3,6 +3,7 @@ import { validateProperty } from '$lib/utils/validator.js'
 import apiErrorHandler from '$lib/utils/apiErrorHandler.js';
 import { json } from '@sveltejs/kit';
 import { sendPropertyBlockedMail, sendPropertyUnblockedMail } from '$lib/utils/emailer.js';
+import { updateImagesInS3 } from '$lib/utils/imageProvider.js';
 
 export async function PATCH({ request, params }) {
     try {
