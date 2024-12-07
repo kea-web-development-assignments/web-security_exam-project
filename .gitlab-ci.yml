@@ -46,8 +46,13 @@ build-nginx:
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
+  variables:
+    REF_SSL_CERT: $LINODE_HAIDAR_DK_SSL_CERT
+    REF_SSL_KEY: $LINODE_HAIDAR_DK_SSL_KEY
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - cat $REF_SSL_CERT > ./linode.haidar.dk.pem
+    - cat $REF_SSL_KEY > ./linode.haidar.dk.key
     - /kaniko/executor
       --context $CI_PROJECT_DIR
       --dockerfile Dockerfile.nginx

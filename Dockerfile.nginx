@@ -1,8 +1,6 @@
 FROM nginx
 WORKDIR /
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-COPY ./linode.haidar.dk.pem /etc/ssl/linode.haidar.dk.pem
-COPY ./linode.haidar.dk.key /etc/ssl/linode.haidar.dk.key
 EXPOSE 80
 EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]
