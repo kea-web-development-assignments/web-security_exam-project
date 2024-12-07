@@ -2,6 +2,7 @@
 stages:
   - test
   - build-db
+  - build-web
 test:
   stage: test
   image: node:18-alpine
@@ -27,3 +28,15 @@ build-db:
       --dockerfile Dockerfile.db
       --destination $CI_REGISTRY_IMAGE/db:latest
       --destination $CI_REGISTRY_IMAGE/db:$CI_COMMIT_SHORT_SHA
+build-web:
+  stage: build-web
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context $CI_PROJECT_DIR
+      --dockerfile Dockerfile.web
+      --destination $CI_REGISTRY_IMAGE/web:latest
+      --destination $CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHORT_SHA
