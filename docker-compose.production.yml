@@ -10,7 +10,7 @@ services:
     depends_on:
       - web
     networks:
-      - proxy_web
+      - nginx_web
   web:
     image:
       registry.gitlab.com/haal0005/development-environments_exam-project/web:latest
@@ -19,7 +19,7 @@ services:
       db:
         condition: service_healthy
     networks:
-      - proxy_web
+      - nginx_web
       - web_db
   db:
     image:
@@ -40,5 +40,5 @@ services:
 volumes:
   pgdata:
 networks:
-  proxy_web:
+  nginx_web:
   web_db:

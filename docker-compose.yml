@@ -11,7 +11,7 @@ services:
     depends_on:
       - web
     networks:
-      - proxy_web
+      - nginx_web
   web:
     build:
       context: .
@@ -21,7 +21,7 @@ services:
       db:
         condition: service_healthy
     networks:
-      - proxy_web
+      - nginx_web
       - web_db
   db:
     build:
@@ -43,5 +43,5 @@ services:
 volumes:
   pgdata:
 networks:
-  proxy_web:
+  nginx_web:
   web_db:
