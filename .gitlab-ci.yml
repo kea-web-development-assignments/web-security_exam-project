@@ -1,5 +1,9 @@
 ---
+stages:
+  - test
+  - build-db
 test:
+  stage: test
   image: node:18-alpine
   script:
     - yamllint *.yml
@@ -12,6 +16,7 @@ test:
     - apk add shellcheck
     - npm i
 build-db:
+  stage: build-db
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
