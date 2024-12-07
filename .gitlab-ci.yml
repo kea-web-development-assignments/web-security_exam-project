@@ -11,3 +11,14 @@ test:
     - apk add yamllint
     - apk add shellcheck
     - npm i
+build-db:
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context $CI_PROJECT_DIR
+      --dockerfile Dockerfile.db
+      --destination $CI_REGISTRY/$CI_REGISTRY_IMAGE-db:latest
+      --destination $CI_REGISTRY/$CI_REGISTRY_IMAGE-db:$CI_COMMIT_SHA

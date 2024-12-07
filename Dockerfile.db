@@ -1,0 +1,4 @@
+FROM postgres:14.15-alpine
+WORKDIR /
+COPY ./init.sql ./docker-entrypoint-initdb.d/init.sql
+EXPOSE 5432
