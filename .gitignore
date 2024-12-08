@@ -12,5 +12,3 @@ migrations
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 *.swp
-*.pem
-*.key
