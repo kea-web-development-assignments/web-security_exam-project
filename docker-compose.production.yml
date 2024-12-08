@@ -1,0 +1,44 @@
+---
+services:
+  nginx:
+    image:
+      registry.gitlab.com/haal0005/development-environments_exam-project/nginx:latest
+    restart: always
+    ports:
+      - 4000:80
+      - 443:443
+    depends_on:
+      - web
+    networks:
+      - proxy_web
+  web:
+    image:
+      registry.gitlab.com/haal0005/development-environments_exam-project/web:latest
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - proxy_web
+      - web_db
+  db:
+    image:
+      registry.gitlab.com/haal0005/development-environments_exam-project/db:latest
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - web_db
+volumes:
+  pgdata:
+networks:
+  proxy_web:
+  web_db:
