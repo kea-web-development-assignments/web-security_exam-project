@@ -39,5 +39,6 @@ DO_SPACES_BUCKET_NAME="<digital-ocean-spaces-bucket-name>"
 DO_SPACES_ENDPOINT="<digital-ocean-spaces-endpoint>"
 PUBLIC_DO_SPACES_IMAGE_CDN="<digital-ocean-spaces-image-cdn-url>"
 ```
+- Replace the dummy certificate and key files `linode.haidar.dk.pem`, `linode.haidar.dk.key` with a valid certificate and key file
 - Run `docker compose -f docker-compose.production.yml up -d --pull always` in a terminal
 - Go to [linode.haidar.dk](https://linode.haidar.dk/)
