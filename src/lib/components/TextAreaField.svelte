@@ -6,11 +6,12 @@
     export let noRequiredMarker = false;
     export let value = '';
     export let errorMessage = '';
+    export let containerClass = '';
 
     let id = crypto.randomUUID();
 </script>
 
-<div>
+<div class={containerClass}>
     <label
         class="pl-1"
         for={id}

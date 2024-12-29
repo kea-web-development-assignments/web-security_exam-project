@@ -90,6 +90,22 @@ export function validateProperty(
     return baseValidator(data, fields, propertyFieldsLookup, formId);
 }
 
+export const commentFieldsLookup = {
+    description: {
+        label: 'Description',
+        regex: '^[^]{0,2500}$',
+        message: 'Must be valid description, less than 2500 characters',
+    },
+};
+
+export function validateComment(
+    data,
+    fields = ['description'],
+    formId,
+) {
+    return baseValidator(data, fields, commentFieldsLookup, formId);
+}
+
 function baseValidator(data, fields, fieldsLookup, formId) {
     fields = [...new Set(fields)]; //remove field duplicates
     fields = fields.filter((field) => fieldsLookup[field]); //only check fields in the lookup
