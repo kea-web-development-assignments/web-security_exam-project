@@ -7,7 +7,6 @@ services:
     restart: always
     ports:
       - 4000:80
-      - 443:443 # for ssl
     depends_on:
       - web
     networks:
@@ -17,6 +16,8 @@ services:
       context: .
       dockerfile: Dockerfile.web
     env_file: .env
+    ports:
+      - 3000:3000
     depends_on:
       db:
         condition: service_healthy
@@ -31,6 +32,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
