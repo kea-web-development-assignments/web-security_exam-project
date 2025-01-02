@@ -103,6 +103,9 @@ export async function updateImagesInS3(userId, propertyId, images) {
 }
 
 export async function getImageCountInS3(userId, propertyId) {
+    if(!DO_SPACES_BUCKET_NAME) {
+        return;
+    }
     if(!userId || !propertyId) {
         return;
     }
