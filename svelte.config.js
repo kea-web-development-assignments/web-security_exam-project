@@ -12,8 +12,8 @@ const config = {
 			'$node-modules': './node_modules',
 		},
 		csrf: {
-			checkOrigin: false,
-		}
+			checkOrigin: true,
+		},
 	},
 	preprocess: vitePreprocess(),
 };
