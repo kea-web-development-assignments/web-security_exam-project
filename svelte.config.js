@@ -14,6 +14,25 @@ const config = {
 		csrf: {
 			checkOrigin: true,
 		},
+		csp: {
+			directives: {
+				'default-src': [
+					'self',
+					'http://api.mapbox.com/',
+					'https://*.mapbox.com/',
+				],
+				'img-src': [
+					'self',
+					'data:',
+					process.env.PUBLIC_DO_SPACES_IMAGE_CDN,
+				],
+				'script-src': [
+					'self',
+					'blob:',
+					'http://api.mapbox.com/',
+				]
+			},
+		}
 	},
 	preprocess: vitePreprocess(),
 };
