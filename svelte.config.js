@@ -20,6 +20,7 @@ const config = {
 					'self',
 					'http://api.mapbox.com/',
 					'https://*.mapbox.com/',
+					'unsafe-inline'
 				],
 				'img-src': [
 					'self',
@@ -30,6 +31,7 @@ const config = {
 					'self',
 					'blob:',
 					'http://api.mapbox.com/',
+					'unsafe-inline'
 				]
 			},
 		}
