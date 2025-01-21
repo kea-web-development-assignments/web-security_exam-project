@@ -1,0 +1,60 @@
+---
+stages:
+  - test
+  - db
+  - web
+  - nginx
+test:
+  stage: test
+  image: node:18-alpine
+  script:
+    - yamllint *.yml
+    - shellcheck ./bin/*
+    - npm run lint
+    - npm run audit
+  before_script:
+    - apk update
+    - apk add yamllint
+    - apk add shellcheck
+    - npm i
+build-and-push-db:
+  stage: db
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context $CI_PROJECT_DIR
+      --dockerfile Dockerfile.db
+      --destination $CI_REGISTRY_IMAGE/db:latest
+      --destination $CI_REGISTRY_IMAGE/db:$CI_COMMIT_SHORT_SHA
+build-and-push-web:
+  stage: web
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context $CI_PROJECT_DIR
+      --dockerfile Dockerfile.web
+      --destination $CI_REGISTRY_IMAGE/web:latest
+      --destination $CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHORT_SHA
+build-and-push-nginx:
+  stage: nginx
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  variables:
+    REF_SSL_CERT: $DO_HAIDAR_DK_SSL_CERT
+    REF_SSL_KEY: $DO_HAIDAR_DK_SSL_KEY
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - cat $REF_SSL_CERT > ./do.haidar.dk.pem
+    - cat $REF_SSL_KEY > ./do.haidar.dk.key
+    - /kaniko/executor
+      --context $CI_PROJECT_DIR
+      --dockerfile Dockerfile.nginx
+      --destination $CI_REGISTRY_IMAGE/nginx:latest
+      --destination $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHORT_SHA
